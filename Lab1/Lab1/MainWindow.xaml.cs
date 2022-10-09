@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Remoting.Messaging;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -27,6 +28,7 @@ namespace Lab1
             Loaded += OnWinowLoaded;
         }
 
+
         private void OnWinowLoaded(object sender, EventArgs e)
         {
             Loaded -= OnWinowLoaded;
@@ -35,12 +37,31 @@ namespace Lab1
 
         private void OnStartNewGameBtnClick(object sender, EventArgs e)
         {
-            int I = 0;
+            var game = this.DataContext as Game;
+            game.NewGame();
+            playfield.IsEnabled = true;
+            newGameBtn.IsEnabled = false;
         }
 
-        private void OnFieldMouseDown(object sender, EventArgs e)
+        private void Field_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            var field = sender as Image;
+            var field = sender as Field;
+            var game = this.DataContext as Game;
+            if (field.Type != FieldType.Empty)
+                return;
+            if(game.MyTurn)
+                field.Type = FieldType.X;
+            else
+                field.Type = FieldType.O;
+
+            if(game.Move(field.SlotX, field.SlotY, game.MyTurn ? FieldType.X : FieldType.O))
+            {
+                playfield.IsEnabled = false;
+                newGameBtn.IsEnabled = true;
+                return;
+            }
+
+            game.SwitchSides();
         }
     }
 }

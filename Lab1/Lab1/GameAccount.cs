@@ -33,5 +33,34 @@ namespace Lab1
                 return false;
             return true;
         }
+
+        private uint _score = 0;
+        public uint Score 
+        {
+            get => _score;
+            private set
+            {
+                if(_score != value)
+                {
+                    _score = value;
+                    OnPropertyChanged(nameof(Score));
+                }
+            }
+        }
+
+        public void WinGame()
+        {
+            Score += 30;
+        }
+
+        public void LoseGame()
+        {
+            if(Score - 30 < 0)
+            {
+                Score = 0;
+                return;
+            }
+            Score -= 30;
+        }
     }
 }

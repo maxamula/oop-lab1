@@ -14,3 +14,6 @@ C:\Users\maxamula\Documents\GitHub\oop-lab1\Lab1\Lab1\obj\Debug\Lab1.csproj.Gene
 C:\Users\maxamula\Documents\GitHub\oop-lab1\Lab1\Lab1\obj\Debug\Lab1.csproj.CoreCompileInputs.cache
 C:\Users\maxamula\Documents\GitHub\oop-lab1\Lab1\Lab1\obj\Debug\Lab1.exe
 C:\Users\maxamula\Documents\GitHub\oop-lab1\Lab1\Lab1\obj\Debug\Lab1.pdb
+C:\Users\maxamula\Documents\GitHub\oop-lab1\Lab1\Lab1\obj\Debug\Field.g.cs
+C:\Users\maxamula\Documents\GitHub\oop-lab1\Lab1\Lab1\obj\Debug\GeneratedInternalTypeHelper.g.cs
+C:\Users\maxamula\Documents\GitHub\oop-lab1\Lab1\Lab1\obj\Debug\Field.baml

@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace Lab1
 {
+
     public class Game : ViewModelBase
     {
         private GameAccount _userAccount = new GameAccount();
@@ -24,14 +27,99 @@ namespace Lab1
         private GameAccount _enemyAccount = new GameAccount();
         public GameAccount EnemyAccount { get; private set; }
 
-        private GameAccount _currentPlayer;
-
-        public void NextPlayer()
+        private uint moves = 0;
+        public bool MyTurn { get; private set; } = true;
+        private FieldType[,] map = new FieldType[3, 3];
+        
+        public void NewGame()
         {
-            if (_currentPlayer == _userAccount)
-                _currentPlayer = _enemyAccount;
+            _currentAccount = _userAccount;
+            moves = 0;
+            MyTurn = true;
+            Field.ClearFields();
+            for(int i = 0; i < 3; i++)
+            {
+                for (int j = 0; j < 3; j++)
+                {
+                    map[i, j] = FieldType.Empty;
+                }
+            }
+        }
+
+        public bool Move(int x, int y, FieldType s)
+        {
+            if (map[x, y] == FieldType.Empty)
+            {
+                map[x, y] = s;
+            }
+            moves++;
+
+            for (int i = 0; i < 3; i++)
+            {
+                if (map[x, i] != s)
+                    break;
+                if (i == 3 - 1)
+                {
+                    _currentAccount.WinGame();
+                    return true;
+                }
+            }
+
+
+            for (int i = 0; i < 3; i++)
+            {
+                if (map[i, y] != s)
+                    break;
+                if (i == 3 - 1)
+                {
+                    _currentAccount.WinGame();
+                    return true;
+                }
+            }
+
+            if (x == y)
+            {
+                for (int i = 0; i < 3; i++)
+                {
+                    if (map[i, i] != s)
+                        break;
+                    if (i == 3 - 1)
+                    {
+                        _currentAccount.WinGame();
+                        return true;
+                    }
+                }
+            }
+
+            if (x + y == 3 - 1)
+            {
+                for (int i = 0; i < 3; i++)
+                {
+                    if (map[i, (3 - 1) - i] != s)
+                        break;
+                    if (i == 3 - 1)
+                    {
+                        _currentAccount.WinGame();
+                        return true;
+                    }
+                }
+            }
+
+            if (moves == 9)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        private GameAccount _currentAccount;
+        public void SwitchSides()
+        {
+            if (_currentAccount == _userAccount)
+                _currentAccount = _enemyAccount;
             else
-                _currentPlayer = _userAccount;
+                _currentAccount = _userAccount;
+            MyTurn = !MyTurn;
         }
     }
 }
