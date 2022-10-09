@@ -1,15 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Lab1
 {
+    public class GameInfo
+    {
+        public DateTime Time { get; set; }
+        public string Result { get; set; }
+        public string Info { get; set; }
+        public string Rating { get; set; }
+    }
+
     public class GameAccount : ViewModelBase
     {
+        public GameAccount()
+        {
+            GameHistory = new ReadOnlyObservableCollection<GameInfo>(_gameHistory);
+        }
 
-        private string _userName = "dsdsdsds";
+        private string _userName = "Player";
         public string UserName
         {
             get => _userName;
@@ -48,19 +61,25 @@ namespace Lab1
             }
         }
 
-        public void WinGame()
+        public void WinGame(uint rating, GameAccount enemy)
         {
-            Score += 30;
+            Score += rating;
+            enemy.LoseGame(rating, this);
+            _gameHistory.Add(new GameInfo() { Info = $"{UserName} vs {enemy.UserName}", Result = "Win", Time = DateTime.Now, Rating = $"Rating: {rating}"});
         }
 
-        public void LoseGame()
+        public void LoseGame(uint rating, GameAccount enemy)
         {
-            if(Score - 30 < 0)
+            _gameHistory.Add(new GameInfo() { Info = $"{UserName} vs {enemy.UserName}", Result = "Lose", Time = DateTime.Now, Rating = $"Rating: -{rating}" });
+            if ((int)Score - rating < 0)
             {
                 Score = 0;
                 return;
             }
-            Score -= 30;
+            Score -= rating;    
         }
+
+        public ReadOnlyObservableCollection<GameInfo> GameHistory { get; private set; } 
+        private ObservableCollection<GameInfo> _gameHistory = new ObservableCollection<GameInfo>();
     }
 }

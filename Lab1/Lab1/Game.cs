@@ -25,14 +25,30 @@ namespace Lab1
             }
         }
         private GameAccount _enemyAccount = new GameAccount();
-        public GameAccount EnemyAccount { get; private set; }
+        public GameAccount EnemyAccount
+        {
+            get => _enemyAccount;
+            private set
+            {
+                if (_enemyAccount != value)
+                {
+                    _enemyAccount = value;
+                    OnPropertyChanged(nameof(EnemyAccount));
+                }
+            }
+        }
 
-        private uint moves = 0;
+
+        public uint Rating { get; private set; }
+
+        private uint moves  = 0;
         public bool MyTurn { get; private set; } = true;
         private FieldType[,] map = new FieldType[3, 3];
         
+        private Random r = new Random(1337);
         public void NewGame()
         {
+            Rating = (uint)r.Next(0, 150);
             _currentAccount = _userAccount;
             moves = 0;
             MyTurn = true;
@@ -60,7 +76,7 @@ namespace Lab1
                     break;
                 if (i == 3 - 1)
                 {
-                    _currentAccount.WinGame();
+                    _currentAccount.WinGame(Rating, _currentAccount == _userAccount ? _enemyAccount : _userAccount);
                     return true;
                 }
             }
@@ -72,7 +88,7 @@ namespace Lab1
                     break;
                 if (i == 3 - 1)
                 {
-                    _currentAccount.WinGame();
+                    _currentAccount.WinGame(Rating, _currentAccount == _userAccount ? _enemyAccount : _userAccount);
                     return true;
                 }
             }
@@ -85,7 +101,7 @@ namespace Lab1
                         break;
                     if (i == 3 - 1)
                     {
-                        _currentAccount.WinGame();
+                        _currentAccount.WinGame(Rating, _currentAccount == _userAccount ? _enemyAccount : _userAccount);
                         return true;
                     }
                 }
@@ -99,7 +115,7 @@ namespace Lab1
                         break;
                     if (i == 3 - 1)
                     {
-                        _currentAccount.WinGame();
+                        _currentAccount.WinGame(Rating, _currentAccount == _userAccount ? _enemyAccount : _userAccount);
                         return true;
                     }
                 }

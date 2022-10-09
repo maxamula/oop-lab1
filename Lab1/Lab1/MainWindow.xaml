@@ -24,6 +24,7 @@
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <StackPanel Grid.Row="0" Orientation="Horizontal">
                 <TextBlock Text="Name:" HorizontalAlignment="Center" FontWeight="SemiBold" FontSize="16"/>
@@ -34,6 +35,19 @@
                 <TextBlock Text="{Binding UserAccout.Score}" Margin="5 0 0 0" HorizontalAlignment="Center" FontWeight="SemiBold" FontSize="16"/>
             </StackPanel>
             <Button x:Name="newGameBtn" Grid.Row="2" HorizontalAlignment="Center" Padding="3" Margin="20" Click="OnStartNewGameBtnClick" Content="New Game"/>
+            <ItemsControl ItemsSource="{Binding UserAccout.GameHistory}" Grid.Row="3">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Margin="7" Orientation="Vertical">
+                            <TextBlock Text="{Binding Time}"/>
+                            <TextBlock Text="{Binding Info}"/>
+                            <TextBlock Text="{Binding Rating}"/>
+                            <TextBlock Text="{Binding Result}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
         </Grid>
         <!-- Enemy account-->
         <Grid Grid.Column="2">
@@ -44,11 +58,11 @@
             </Grid.RowDefinitions>
             <StackPanel Grid.Row="0" Orientation="Horizontal">
                 <TextBlock Text="Name:" HorizontalAlignment="Center" FontWeight="SemiBold" FontSize="16"/>
-                <TextBlock Text="{Binding UserAccout.UserName}" Margin="5 0 0 0" HorizontalAlignment="Center" FontWeight="SemiBold" FontSize="16"/>
+                <TextBlock Text="{Binding EnemyAccount.UserName}" Margin="5 0 0 0" HorizontalAlignment="Center" FontWeight="SemiBold" FontSize="16"/>
             </StackPanel>
             <StackPanel Margin="0 10 0 0" Grid.Row="1" Orientation="Horizontal">
                 <TextBlock Text="Score:" HorizontalAlignment="Center" FontWeight="SemiBold" FontSize="16"/>
-                <TextBlock Text="{Binding UserAccout.Score}" Margin="5 0 0 0" HorizontalAlignment="Center" FontWeight="SemiBold" FontSize="16"/>
+                <TextBlock Text="{Binding EnemyAccount.Score}" Margin="5 0 0 0" HorizontalAlignment="Center" FontWeight="SemiBold" FontSize="16"/>
             </StackPanel>
         </Grid>
 
