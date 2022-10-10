@@ -43,6 +43,7 @@
                             <TextBlock Text="{Binding Info}"/>
                             <TextBlock Text="{Binding Rating}"/>
                             <TextBlock Text="{Binding Result}"/>
+                            <TextBlock Text="{Binding MatchID}"/>
                         </StackPanel>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>

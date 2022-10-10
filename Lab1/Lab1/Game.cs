@@ -38,7 +38,7 @@ namespace Lab1
             }
         }
 
-
+        private long matchId = 0;
         public uint Rating { get; private set; }
 
         private uint moves  = 0;
@@ -48,6 +48,7 @@ namespace Lab1
         private Random r = new Random(1337);
         public void NewGame()
         {
+            matchId++;
             Rating = (uint)r.Next(0, 150);
             _currentAccount = _userAccount;
             moves = 0;
@@ -70,13 +71,17 @@ namespace Lab1
             }
             moves++;
 
+            var winner = _currentAccount == _userAccount ? _userAccount : _enemyAccount;
+            var loser = _currentAccount == _userAccount ? _enemyAccount : _userAccount;
+
             for (int i = 0; i < 3; i++)
             {
                 if (map[x, i] != s)
                     break;
                 if (i == 3 - 1)
                 {
-                    _currentAccount.WinGame(Rating, _currentAccount == _userAccount ? _enemyAccount : _userAccount);
+                    winner.WinGame(new GameInfo() { enemy = loser, Info = $"{winner.UserName} vs {loser.UserName}", MatchID = $"MatchId: {matchId}", Rating = $"Rating: {Rating}", Result="Win", Time = DateTime.Now}, Rating);
+                    loser.LoseGame(new GameInfo() { enemy = winner, Info = $"{winner.UserName} vs {loser.UserName}", MatchID = $"MatchId: {matchId}", Rating = $"Rating: -{Rating}", Result = "Loose", Time = DateTime.Now }, Rating);
                     return true;
                 }
             }
@@ -88,7 +93,8 @@ namespace Lab1
                     break;
                 if (i == 3 - 1)
                 {
-                    _currentAccount.WinGame(Rating, _currentAccount == _userAccount ? _enemyAccount : _userAccount);
+                    winner.WinGame(new GameInfo() { enemy = loser, Info = $"{winner.UserName} vs {loser.UserName}", MatchID = $"MatchId: {matchId}", Rating = $"Rating: {Rating}", Result = "Win", Time = DateTime.Now }, Rating);
+                    loser.LoseGame(new GameInfo() { enemy = winner, Info = $"{winner.UserName} vs {loser.UserName}", MatchID = $"MatchId: {matchId}", Rating = $"Rating: -{Rating}", Result = "Loose", Time = DateTime.Now }, Rating);
                     return true;
                 }
             }
@@ -101,7 +107,8 @@ namespace Lab1
                         break;
                     if (i == 3 - 1)
                     {
-                        _currentAccount.WinGame(Rating, _currentAccount == _userAccount ? _enemyAccount : _userAccount);
+                        winner.WinGame(new GameInfo() { enemy = loser, Info = $"{winner.UserName} vs {loser.UserName}", MatchID = $"MatchId: {matchId}", Rating = $"Rating: {Rating}", Result = "Win", Time = DateTime.Now }, Rating);
+                        loser.LoseGame(new GameInfo() { enemy = winner, Info = $"{winner.UserName} vs {loser.UserName}", MatchID = $"MatchId: {matchId}", Rating = $"Rating: -{Rating}", Result = "Loose", Time = DateTime.Now }, Rating);
                         return true;
                     }
                 }
@@ -115,7 +122,8 @@ namespace Lab1
                         break;
                     if (i == 3 - 1)
                     {
-                        _currentAccount.WinGame(Rating, _currentAccount == _userAccount ? _enemyAccount : _userAccount);
+                        winner.WinGame(new GameInfo() { enemy = loser, Info = $"{winner.UserName} vs {loser.UserName}", MatchID = $"MatchId: {matchId}", Rating = $"Rating: {Rating}", Result = "Win", Time = DateTime.Now }, Rating);
+                        loser.LoseGame(new GameInfo() { enemy = winner, Info = $"{winner.UserName} vs {loser.UserName}", MatchID = $"MatchId: {matchId}", Rating = $"Rating: -{Rating}", Result = "Loose", Time = DateTime.Now }, Rating);
                         return true;
                     }
                 }

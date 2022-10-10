@@ -9,10 +9,12 @@ namespace Lab1
 {
     public class GameInfo
     {
+        public GameAccount enemy { get; set; }
         public DateTime Time { get; set; }
         public string Result { get; set; }
         public string Info { get; set; }
         public string Rating { get; set; }
+        public string MatchID { get; set; }
     }
 
     public class GameAccount : ViewModelBase
@@ -61,16 +63,15 @@ namespace Lab1
             }
         }
 
-        public void WinGame(uint rating, GameAccount enemy)
+        public void WinGame(GameInfo info, uint rating)
         {
             Score += rating;
-            enemy.LoseGame(rating, this);
-            _gameHistory.Add(new GameInfo() { Info = $"{UserName} vs {enemy.UserName}", Result = "Win", Time = DateTime.Now, Rating = $"Rating: {rating}"});
+            _gameHistory.Add(info);
         }
 
-        public void LoseGame(uint rating, GameAccount enemy)
+        public void LoseGame(GameInfo info, uint rating)
         {
-            _gameHistory.Add(new GameInfo() { Info = $"{UserName} vs {enemy.UserName}", Result = "Lose", Time = DateTime.Now, Rating = $"Rating: -{rating}" });
+            _gameHistory.Add(info);
             if ((int)Score - rating < 0)
             {
                 Score = 0;
