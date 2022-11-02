@@ -27,18 +27,19 @@ namespace Lab1
             InitializeComponent();
             Loaded += OnWinowLoaded;
         }
-
-
         private void OnWinowLoaded(object sender, EventArgs e)
         {
             Loaded -= OnWinowLoaded;
-            this.DataContext = new Game();
+            this.DataContext = new GameManager();
         }
+
+        NoobAccount player1 = new NoobAccount("Noob");
+        StreakAccount player2 = new StreakAccount("Pro");
 
         private void OnStartNewGameBtnClick(object sender, EventArgs e)
         {
-            var game = this.DataContext as Game;
-            game.NewGame();
+            var manager = this.DataContext as GameManager;
+            manager.NewGame(player1, player2, GameType.RatingGame);
             playfield.IsEnabled = true;
             newGameBtn.IsEnabled = false;
         }
@@ -46,22 +47,22 @@ namespace Lab1
         private void Field_MouseDown(object sender, MouseButtonEventArgs e)
         {
             var field = sender as Field;
-            var game = this.DataContext as Game;
+            var manager = this.DataContext as GameManager;
             if (field.Type != FieldType.Empty)
                 return;
-            if(game.MyTurn)
+            if(manager.Player)
                 field.Type = FieldType.X;
             else
                 field.Type = FieldType.O;
 
-            if(game.Move(field.SlotX, field.SlotY, game.MyTurn ? FieldType.X : FieldType.O))
+            if(manager.CurrentGame.Move(field.SlotX, field.SlotY, manager.Player ? FieldType.X : FieldType.O, manager.Player))
             {
                 playfield.IsEnabled = false;
                 newGameBtn.IsEnabled = true;
                 return;
             }
 
-            game.SwitchSides();
+            manager.Player = !manager.Player;
         }
     }
 }

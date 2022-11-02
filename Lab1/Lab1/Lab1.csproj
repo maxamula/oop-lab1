@@ -73,8 +73,9 @@
     <Compile Include="Field.xaml.cs">
       <DependentUpon>Field.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Game.cs" />
     <Compile Include="GameAccount.cs" />
+    <Compile Include="GameBase.cs" />
+    <Compile Include="GameManager.cs" />
     <Compile Include="ViewModelBase.cs" />
     <Page Include="Field.xaml">
       <SubType>Designer</SubType>
